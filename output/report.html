@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+<head>
+	<meta charset="utf-8"/>
+	<title>Babbel Challenge</title>
+	<meta name="author" content="Luca Pizzagalli"/>
+	<meta name="date" content="2021-12-14"/>
+	<link type="text/css" rel="stylesheet" href="retro.css"/>
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script> <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+</head>
+<body>
+
+<h1 id="babbelchallenge">Babbel Challenge</h1>
+
+<h2 id="bayesianinference">Bayesian Inference</h2>
+
+<p>Bayesian inference is a technique for incorporating new information in a belief corpus.</p>
+
+<p>Most (all) of our belief are not absolute certainties, as we always have a certain degree of uncertainty. In bayesian inference we quantify this uncertainty as a probability, for example the probability that the belief <span class="math">\(A\)</span> is true. This probability is called &#8220;prior&#8221; and it comes from a theoretical model, assumptions, or past experimental data.</p>
+
+<p>As we collect new evidence (let&#8217;s call it <span class="math">\(B\)</span>), we want to update our probability to reflect all the information available, past and new.
+For doing so we use the Bayes' Theorem:</p>
+
+<p><span class="math">\[P(A|B) = \frac{P(B|A) P(A)}{P(B)}\]</span></p>
+
+<p><span class="math">\(P(A|B)\)</span> is our new degree of confidence in <span class="math">\(A\)</span> given the new evidence <span class="math">\(B\)</span>, and it&#8217;s called &#8220;posterior&#8221;.</p>
+
+<p>Bayesian inference is an iterative process, as newer information can always become available. If this happens we can use our old posterior as new prior for the next step in our quest for building a belief system that better end better maps the real world.</p>
+
+<h2 id="multi-armedbanditproblem">Multi-Armed Bandit problem</h2>
+
+<p>Multi-Armed Bandit problem is a theoretical problem in which we have to balance exploration with exploitation.</p>
+
+<p>In the problem we have <span class="math">\(N\)</span> slots machine, each giving a reward coming from an unknown probability distribution when played.
+We have in total <span class="math">\(T\)</span> rounds and in each round we can choose which slot to play. Our goal is to maximize the total reward.</p>
+
+<p>What&#8217;s interesting about this problem is the necessary trade-off between spending many rounds trying to understand which slot is the most fruitful, and having many rounds left to squeeze the most out of the best slot.</p>
+
+<h2 id="beta-bernoullimodel">Beta-Bernoulli model</h2>
+
+<p>Let&#8217;s say we have a random variable <span class="math">\(X\)</span>, we know <span class="math">\(X\)</span> can be <span class="math">\(1\)</span> with probability <span class="math">\(P\)</span> and <span class="math">\(0\)</span> with probability <span class="math">\(1-P\)</span>, but we don&#8217;t know <span class="math">\(P\)</span>, and we want to find it.</p>
+
+<p>If we sample <span class="math">\(X\)</span> multiple times we collect more and more data, with which it&#8217;s possible to update our belief about what is the true value of <span class="math">\(P\)</span>, a perfect context for bayesian inference!</p>
+
+<p><span class="math">\[beta(p;\alpha,\beta) \propto p^{\alpha-1} (1-p)^{\beta-1}\]</span></p>
+
+<p>This up here is the beta distribution, a probability distribution depending on the two parameters <span class="math">\(\alpha\)</span> and <span class="math">\(\beta\)</span>.
+We can see that the shape of the formula is the same of the binomial distribution, with <span class="math">\(\alpha-1\)</span> equals to the number of successes and <span class="math">\(\beta -1\)</span> equals to the number of failures. The difference is that here the unknown variable to estimate is <span class="math">\(p\)</span>, not the number of successes.</p>
+
+<p>Therefore the beta distribution naturally expresses the probability distribution for <span class="math">\(p\)</span> and we can use it as prior.</p>
+
+<p>The other very convenient thing about the beta distribution is that when we update it with new data the posterior is also a beta distributions, just with the parameters <span class="math">\(\alpha\)</span> and <span class="math">\(\beta\)</span> updated.</p>
+
+<h2 id="thompsonsampling">Thompson Sampling</h2>
+
+<p>In the context of Multi-Armed Bandit problem with slots' rewards following a bernulli distribution, many strategies have been proposed. Thompson Sampling is one of those.</p>
+
+<p>In Thompson Sampling we use the beta distributions to model our priors and we update the <span class="math">\(\alpha\)</span> s and <span class="math">\(\beta\)</span> s as we sample the slots.
+For deciding which slot to play we sample all the priors and we choose the slot whose prior provided the highest value. In this way we&#8217;ll focus more on the slots that we think have highest <span class="math">\(P\)</span>, but still always giving a chance to the lower performing ones.</p>
+
+</body>
+</html>
+
